@@ -7,12 +7,14 @@ async function dbConnect() {
     return;
   }
 
-  return mongoose.connect("mongodb://localhost:27017/yelp-camp", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-  });
+  return mongoose
+    .connect("mongodb://localhost:27017/yelp-camp", {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    })
+    .then(console.log("open and connected"));
 }
 
 export default dbConnect;
