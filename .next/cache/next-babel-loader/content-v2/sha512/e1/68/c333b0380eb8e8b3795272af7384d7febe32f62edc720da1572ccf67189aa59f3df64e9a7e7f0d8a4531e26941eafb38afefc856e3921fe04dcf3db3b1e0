@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const fetchData = async () => {\n  // Call an external API endpoint to get posts.\n  // You can use any data fetching library\n  const res = await fetch(\"http://localhost:8080/api/test\");\n  const posts = await res.json();\n  return posts;\n};","map":null,"metadata":{},"sourceType":"module"}

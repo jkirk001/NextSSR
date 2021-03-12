@@ -1,8 +1,16 @@
+import { fetchData } from "../utils/fetchData";
+import { preRenderJson } from "../utils/fetchDataDB";
+import Link from "next/link";
+
 function HomePage(props) {
-  const items = props.products.data.map((item, index) => {
+  const items = props.products.map((item, index) => {
     return (
       <li key={item._id}>
-        <h3>{item.username}</h3>
+        <h3>
+          <Link href={`/${item._id}`}>
+            <a>{item.username}</a>
+          </Link>
+        </h3>
         <p>{item.salt}</p>
       </li>
     );
@@ -10,14 +18,26 @@ function HomePage(props) {
   return <ul>{items}</ul>;
 }
 export async function getStaticProps() {
-  const results = await fetch("http://localhost:3000/api/test");
-  const data = await results.json();
-  return {
-    props: {
-      products: data,
-    },
-    revalidate: 10,
-  };
+  try {
+    const data = await fetchData();
+    return {
+      props: {
+        products: data.data,
+      },
+      revalidate: 10,
+      notFound: false,
+    };
+  } catch {
+    const data = await preRenderJson();
+    const dataFinal = await JSON.parse(data);
+    return {
+      props: {
+        products: dataFinal,
+      },
+      revalidate: 10,
+      notFound: false,
+    };
+  }
 }
 
 export default HomePage;
